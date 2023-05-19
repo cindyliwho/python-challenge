@@ -15,6 +15,8 @@ with open(csvpath, 'r') as csvfile:
     prevAmount = 0
     currChange = 0
     changeDict = {}
+    #if in the first month, directly set amount to preAmount, rest loops through, calculating each change 
+    #by subtracting prevAmount from current amount. Update a changes dictionary
     for row in csvreader:
         netTotal = netTotal + int(row[1])
         if months == 0:
@@ -26,6 +28,8 @@ with open(csvpath, 'r') as csvfile:
             prevAmount = int(row[1])
            
         months = months + 1
+
+    #calculates the greatest increase and decrease in profits, get the corresponding month
     sum = 0
     max = 0
     maxDate = ""
@@ -43,6 +47,7 @@ with open(csvpath, 'r') as csvfile:
 
     changes = sum/len(changeDict)
 
+#create a new text file called "summary" in the analysis folder
 with open('analysis/summary.txt', 'w') as f:
      f.write(f"Financial Analysis \n ------------------------- \n Total Months: {months} \n Total: ${netTotal} \n Average Change: ${'%.2f' % changes} \n Greatest Increase in Profits: {maxDate} (${max})\n Greatest Decrease in Profits: {minDate} (${min}))")
 
